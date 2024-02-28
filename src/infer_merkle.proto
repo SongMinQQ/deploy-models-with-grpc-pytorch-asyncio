@@ -1,9 +1,10 @@
 syntax = "proto3";
 
-// The inference service definition.
-service InferenceServer {
+// The inference + Merkle treeservice definition.
+service InferMerkle {
   // Sends a inference reply
   rpc inference (InferenceRequest) returns (InferenceReply) {}
+  rpc build_mt(MT_Request) returns (MT_Response);
 }
 
 // The request message containing the images.
@@ -14,4 +15,13 @@ message InferenceRequest {
 // The response message containing the classes ids
 message InferenceReply {
     repeated uint32 pred = 1;
+}// python -m grpc_tools.protoc -I. --python_out=. --pyi_out=. --grpc_python_out=. merkle_tree.proto 
+
+
+message MT_Response{
+  string root = 1;
+}
+
+message MT_Request {
+  string fingerprint = 1;
 }
